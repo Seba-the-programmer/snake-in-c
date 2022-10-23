@@ -9,14 +9,14 @@ typedef struct{
 } Vec2;
 typedef struct{
     short pos_x, pos_y, length;
-    Node tail;
-    Node* tail_ptr;
+    Node tail[100];
     Vec2 direction;
 } Snake;
 
-void init_Snake(Snake* snake, short x, short y);
-void move_Head(Snake* snake);
-void move_Node(Node* n);
+void init_Snake(Snake*, short x, short y);
+void move_Head(Snake*);
+void move_Tail(Snake*);
+void add_Node(Snake*);
 int check_Borders(short x, short y);
 
 Snake player;

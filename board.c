@@ -1,29 +1,21 @@
 #include "board.h"
 
-const short width_ = 60;
-const short height_ = 20;
-
 void create_Game() {
-    for (size_t y = 0; y < height_; y++) {
-        for (size_t x = 0; x < width_; x++) {
-            if(x==0 || y==0 || x==(width_-1) || y==(height_-1))
+    for (size_t y = 0; y < HEIGHT; y++) {
+        for (size_t x = 0; x < WIDTH; x++) {
+            if(x==0 || y==0 || x==(WIDTH-1) || y==(HEIGHT-1))
                 area[y][x] = '#';
             else area[y][x] = '.';
         }
-        area[y][width_] = '\n';
+        area[y][WIDTH] = '\n';
     }
 
-    //Snake
-    init_Snake(&player, width_, height_);
+    init_Snake(&player, WIDTH, HEIGHT);
 }
 
 void update_Game() {
-    if(check_Borders(width_, height_)) end_Game();
-    if(player.length > 0) {
-        for (size_t i = 0; i < player.length; i++) {
-            move_Node(player.tail_ptr);
-        }
-    }
+    if(check_Borders(WIDTH, HEIGHT)) end_Game();
+    move_Tail(&player);
     move_Head(&player);
 }
 
@@ -31,51 +23,43 @@ void render_Game() {
     update_Game();
 
     system("@cls||clear");
-    for (size_t y = 0; y < height_; y++) {
-        for (size_t x = 0; x <= width_; x++) {
+    for (size_t y = 0; y < HEIGHT; y++) {
+        for (size_t x = 0; x <= WIDTH; x++) {
+            //render head
             if(y == player.pos_y && x == player.pos_x) {
                 printf("@");
-            } else printf("%c", area[y][x]);
+            } else {
+                //render tail
+                for(size_t n=0;n<player.length;n++) {
+                    if(y == player.tail[0].pos_y && x == player.tail[0].pos_x) {
+                        printf("@");
+                    } else printf("%c", area[y][x]);
+                }
+            }
         }
     }
     get_Input();
-    Sleep(250);
+    Sleep(550);
 }
 
 void end_Game() {
-    free(player.tail_ptr);
+    //free all pointers and other shit
 
     exit(0);
 }
 
 void get_Input() {
-    struct timeval tmo;
-    fd_set readfds;
-
-    fflush(stdout);
-
-    FD_ZERO(&readfds);
-    FD_SET(0, &readfds);
-    tmo.tv_sec = 1;
-    tmo.tv_usec = 0;
-    select(1, &readfds, NULL, NULL, &tmo);
-    if (FD_ISSET(STDIN_FILENO, &readfds)) {
-        input = getch();
-        return process_Input();
-    }
-}
-void process_Input() {
-    if(input == 'q') end_Game();
-    else if(input == 'w' && player.direction.Y != 1) {
+    if(GetAsyncKeyState(VK_ESCAPE)) end_Game();
+    else if(GetAsyncKeyState(VK_UP) && player.direction.Y != 1) {
         player.direction.X = 0;
         player.direction.Y = -1;
-    } else if(input == 's' && player.direction.Y != -1) {
+    } else if(GetAsyncKeyState(VK_DOWN) && player.direction.Y != -1) {
         player.direction.X = 0;
         player.direction.Y = 1;
-    } else if(input == 'a' && player.direction.X != 1) {
+    } else if(GetAsyncKeyState(VK_LEFT) && player.direction.X != 1) {
         player.direction.X = -1;
         player.direction.Y = 0;
-    } else if(input == 'd' && player.direction.X != -1) {
+    } else if(GetAsyncKeyState(VK_RIGHT) && player.direction.X != -1) {
         player.direction.X = 1;
         player.direction.Y = 0;
     }
