@@ -18,15 +18,19 @@ void move_Head(Snake* snake) {
     snake->pos_y += snake->direction.Y;
 }
 void move_Tail(Snake* snake) {
-    if(!(player.length > 0)) return;
+    if(snake->length <= 0) return;
 
+    for(int n = (snake->length-1);n>0;n--) {
+        snake->tail[n].pos_x = snake->tail[n-1].pos_x;
+        snake->tail[n].pos_y = snake->tail[n-1].pos_y;
+    }
     snake->tail[0].pos_x = snake->pos_x;
     snake->tail[0].pos_y = snake->pos_y;
 }
 void add_Node(Snake* snake) {
     Node new_Node;
-    new_Node.pos_x = snake->pos_x;
-    new_Node.pos_y = snake->pos_y;
+    new_Node.pos_x = snake->tail[snake->length - 1].pos_x;
+    new_Node.pos_y = snake->tail[snake->length - 1].pos_y;
     snake->tail[snake->length] = new_Node;
     snake->length += 1;
 }
