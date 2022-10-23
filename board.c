@@ -5,16 +5,22 @@ void create_Game() {
         for (size_t x = 0; x < WIDTH; x++) {
             if(x==0 || y==0 || x==(WIDTH-1) || y==(HEIGHT-1))
                 area[y][x] = '#';
-            else area[y][x] = '.';
+            else area[y][x] = ' ';
         }
         area[y][WIDTH] = '\n';
     }
 
+    points = 0;
+    generate_Apple(&player, &apple);
     init_Snake(&player, WIDTH, HEIGHT);
 }
 
 void update_Game() {
     if(check_Borders(WIDTH, HEIGHT)) end_Game();
+    if(player.pos_x == apple.pos_x && player.pos_y == apple.pos_y) {
+        eat_Apple(&player, &apple);
+    }
+
     move_Tail(&player);
     move_Head(&player);
 }
@@ -28,22 +34,32 @@ void render_Game() {
             //render head
             if(y == player.pos_y && x == player.pos_x) {
                 printf("@");
-            } else {
-                //render tail
-                for(size_t n=0;n<player.length;n++) {
-                    if(y == player.tail[0].pos_y && x == player.tail[0].pos_x) {
-                        printf("@");
-                    } else printf("%c", area[y][x]);
+                continue;
+            }
+            //render tail
+            byte flag = 0;
+            for(size_t n=0;n<player.length;n++) {
+                if(y == player.tail[n].pos_y && x == player.tail[n].pos_x) {
+                    printf("@");
+                    flag = 1;
+                    break;
                 }
             }
+            if(flag) continue;
+            //render apple
+            if(y == apple.pos_y && x == apple.pos_x) {
+                printf("*");
+                continue;
+            }
+            printf("%c", area[y][x]);
         }
     }
+    printf("Points: %d\n", points);
     get_Input();
-    Sleep(550);
+    Sleep(450);
 }
 
 void end_Game() {
-    //free all pointers and other shit
 
     exit(0);
 }

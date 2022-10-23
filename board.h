@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "snake.h"
 #include <windows.h>
+#include <time.h>
+#include "snake.h"
+#include "apple.h"
 
 #ifndef board_h
 #define board_h
@@ -15,6 +17,6 @@ void get_Input();
 void end_Game();
 
 char area[20][61];
-char input;
+Apple apple;
 
 #endif

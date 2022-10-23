@@ -1,14 +1,14 @@
 #include "snake.h"
 
 void init_Snake(Snake* snake, short x, short y) {
-    Node node;
-    node.pos_x = x/2;
-    node.pos_y = y/2;
+    // Node node;
+    // node.pos_x = x/2;
+    // node.pos_y = y/2;
 
     snake->pos_x = x/2;
     snake->pos_y = y/2;
-    snake->length = 1;
-    snake->tail[0] = node;
+    snake->length = 0;
+    // snake->tail[0] = node;
     snake->direction.X = 1;
     snake->direction.Y = 0;
 }
