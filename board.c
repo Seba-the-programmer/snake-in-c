@@ -16,7 +16,7 @@ void create_Game() {
 }
 
 void update_Game() {
-    if(check_Borders(WIDTH, HEIGHT)) end_Game();
+    if(check_Collisions(&player, WIDTH, HEIGHT)) end_Game();
     if(player.pos_x == apple.pos_x && player.pos_y == apple.pos_y) {
         eat_Apple(&player, &apple);
     }

@@ -34,12 +34,22 @@ void add_Node(Snake* snake) {
     snake->tail[snake->length] = new_Node;
     snake->length += 1;
 }
-int check_Borders(short x, short y) {
-    if((player.pos_x + player.direction.X) == x-1 || (player.pos_x + player.direction.X) == 0) {
+int check_Borders(Snake* snake, short x, short y) {
+    if((snake->pos_x + snake->direction.X) == x-1 || (snake->pos_x + snake->direction.X) == 0) {
         return 1;
     }
-    if((player.pos_y + player.direction.Y) == y-1 || (player.pos_y + player.direction.Y) == 0) {
+    if((snake->pos_y + snake->direction.Y) == y-1 || (snake->pos_y + snake->direction.Y) == 0) {
         return 1;
+    }
+    return 0;
+}
+
+int check_Collisions(Snake* snake, short x, short y) {
+    if(check_Borders(snake, x, y)) return 1;
+
+    for (int n = 0; n < snake->length; n++) {
+        if(snake->pos_x == snake->tail[n].pos_x && snake->pos_y == snake->tail[n].pos_y)
+            return 1;
     }
     return 0;
 }

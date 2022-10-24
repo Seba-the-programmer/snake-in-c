@@ -17,7 +17,8 @@ void init_Snake(Snake*, short x, short y);
 void move_Head(Snake*);
 void move_Tail(Snake*);
 void add_Node(Snake*);
-int check_Borders(short x, short y);
+int check_Collisions(Snake*, short x, short y);
+int check_Borders(Snake*, short x, short y);
 
 Snake player;
 
