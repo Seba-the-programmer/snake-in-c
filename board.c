@@ -26,6 +26,7 @@ void update_Game() {
 }
 
 void render_Game() {
+    get_Input();
     update_Game();
 
     system("@cls||clear");
@@ -55,8 +56,9 @@ void render_Game() {
         }
     }
     printf("Points: %d\n", points);
-    get_Input();
-    Sleep(450);
+
+    Sleep(300);
+
 }
 
 void end_Game() {

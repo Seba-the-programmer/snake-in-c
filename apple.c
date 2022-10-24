@@ -6,8 +6,8 @@ void generate_Apple(Snake* snake, Apple* a) {
     srand(time(0));
     do
     {
-        x = rand() % (WIDTH - 2) + 1;
-        y = rand() % (HEIGHT - 1) + 1;
+        x = rand() % (WIDTH - 3) + 1;
+        y = rand() % (HEIGHT - 2) + 1;
     } while (x == snake->pos_x && y == snake->pos_y);
 
     a->pos_x = x;
